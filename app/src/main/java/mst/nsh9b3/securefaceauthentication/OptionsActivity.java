@@ -47,12 +47,17 @@ public class OptionsActivity extends AppCompatActivity
         editUsername = (EditText)findViewById(R.id.FTP_Username);
         editPassword = (EditText)findViewById(R.id.FTP_Password);
 
-
         //Get all the TextViews
         textSavedName = (TextView)findViewById(R.id.Text_Saved_Name);
         textFtpAddress = (TextView)findViewById(R.id.Text_FTP_Address);
         textFtpPort = (TextView)findViewById(R.id.Text_FTP_Port);
         textUsername = (TextView)findViewById(R.id.Text_Username);
+
+        //Set TextViews to correct initial text
+        textSavedName.setText(MainActivity.sharedPreferences.getString(getString(R.string.saved_image_name), MainActivity.savedImageName));
+        textFtpAddress.setText(MainActivity.sharedPreferences.getString(getString(R.string.ftp_address), MainActivity.savedFTPAddress));
+        textFtpPort.setText(MainActivity.sharedPreferences.getString(getString(R.string.ftp_port), MainActivity.savedFTPPort));
+        textUsername.setText(MainActivity.sharedPreferences.getString(getString(R.string.username), MainActivity.savedUsername));
     }
 
     public void onSetName(View view)
@@ -133,7 +138,10 @@ public class OptionsActivity extends AppCompatActivity
 
     public void onLoadDefaults(View view)
     {
-
+        textSavedName.setText(MainActivity.sharedPreferences.getString(getString(R.string.saved_image_name), MainActivity.savedImageName));
+        textFtpAddress.setText(MainActivity.sharedPreferences.getString(getString(R.string.ftp_address), MainActivity.savedFTPAddress));
+        textFtpPort.setText(MainActivity.sharedPreferences.getString(getString(R.string.ftp_port), MainActivity.savedFTPPort));
+        textUsername.setText(MainActivity.sharedPreferences.getString(getString(R.string.username), MainActivity.savedUsername));
     }
 
     public void onSaveAsDefaults(View view)
@@ -142,11 +150,7 @@ public class OptionsActivity extends AppCompatActivity
         MainActivity.sharedPreferencesEditor.putString(getString(R.string.ftp_address), textFtpAddress.getText().toString());
         MainActivity.sharedPreferencesEditor.putString(getString(R.string.ftp_port), textFtpPort.getText().toString());
         MainActivity.sharedPreferencesEditor.putString(getString(R.string.username), textUsername.getText().toString());
-        MainActivity.sharedPreferencesEditor.putString(getString(R.string.saved_image_name), textSavedName.getText().toString());
-    }
-
-    public void onSaveValues(View view)
-    {
-
+        MainActivity.sharedPreferencesEditor.putString(getString(R.string.password), password);
+        MainActivity.sharedPreferencesEditor.commit();
     }
 }

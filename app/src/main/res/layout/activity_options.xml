@@ -58,7 +58,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/saved_image_name"
             android:layout_gravity="center"
             android:id="@+id/Text_Saved_Name" />
 
@@ -108,7 +107,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ftp_address"
             android:layout_gravity="center"
             android:id="@+id/Text_FTP_Address" />
 
@@ -158,7 +156,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ftp_port"
             android:layout_gravity="center"
             android:id="@+id/Text_FTP_Port" />
 
@@ -208,7 +205,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username"
             android:layout_gravity="center"
             android:id="@+id/Text_Username" />
 
@@ -273,14 +269,6 @@
                 android:onClick="onSaveAsDefaults"/>
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save Values"
-            android:id="@+id/Save_Values"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onSaveValues"/>
 
     </LinearLayout>
 
