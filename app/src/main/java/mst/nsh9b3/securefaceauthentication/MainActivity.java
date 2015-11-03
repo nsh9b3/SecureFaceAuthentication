@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity
 {
+    private static final String TAG = "SFA::MainActivity";
+
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor sharedPreferencesEditor;
 
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.i(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -35,17 +40,23 @@ public class MainActivity extends AppCompatActivity
 
     public void onOptionsClick(View view)
     {
+        Log.i(TAG, "onOptionsClick");
+
         Intent optionsIntent = new Intent(this, OptionsActivity.class);
         startActivity(optionsIntent);
     }
 
     public void onTakeClick(View view)
     {
+        Log.i(TAG, "onTakeClick");
 
+        Intent takeIntent = new Intent(this, TakePicture.class);
+        startActivity(takeIntent);
     }
 
     public void onSendClick(View view)
     {
+        Log.i(TAG, "onSendClick");
 
     }
 }
