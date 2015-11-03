@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SecureFaceAuthentication</string>
+    <string name="title_activity_options">Options</string>
+
+    <string name="saved_image_name">Saved Face</string>
+    <string name="ftp_address">FTP Address</string>
+    <string name="ftp_port">FTP Port</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+
+</resources>
