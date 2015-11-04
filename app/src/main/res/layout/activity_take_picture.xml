@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context="mst.nsh9b3.securefaceauthentication.TakePicture">
 
+    <mst.nsh9b3.securefaceauthentication.OpenCvCameraView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/Camera_View"/>
 </RelativeLayout>

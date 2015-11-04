@@ -10,6 +10,6 @@ include /home/nsh9b3/Android/OpenCV/sdk/native/jni/OpenCV.mk
 
 LOCAL_LDLIBS    := -llog
 LOCAL_MODULE    := face_detection
-#LOCAL_SRC_FILES := DetectionBasedTracker_jni.cpp
+LOCAL_SRC_FILES := DetectionBasedTracker_jni.cpp
 
 include $(BUILD_SHARED_LIBRARY)

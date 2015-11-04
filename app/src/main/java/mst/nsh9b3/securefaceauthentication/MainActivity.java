@@ -2,10 +2,15 @@ package mst.nsh9b3.securefaceauthentication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -23,6 +28,9 @@ public class MainActivity extends AppCompatActivity
     public static String savedUsername = "Anon";
     public static String savedPassword = "";
 
+    private ImageView imageView;
+
+    private File temporaryFile;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +47,19 @@ public class MainActivity extends AppCompatActivity
         savedFTPPort = sharedPreferences.getString(getString(R.string.ftp_port), savedFTPPort);
         savedUsername = sharedPreferences.getString(getString(R.string.username), savedUsername);
         savedPassword = sharedPreferences.getString(getString(R.string.password), savedPassword);
+
+        // Create Temporary file used for Picture
+        try
+        {
+            temporaryFile = File.createTempFile(savedImageName, ".jpg", getExternalCacheDir());
+        } catch(Exception e)
+        {
+            Log.e(TAG, "Error: " + e);
+        }
+
+        // Set a Default picture for screen
+        imageView = (ImageView)findViewById(R.id.Image_View);
+        imageView.setImageResource(R.mipmap.ic_launcher);
     }
 
     public void onOptionsClick(View view)
@@ -54,23 +75,28 @@ public class MainActivity extends AppCompatActivity
         Log.i(TAG, "onTakeClick");
 
         Intent takeIntent = new Intent(this, TakePicture.class);
-        startActivity(takeIntent);
+        startActivityForResult(takeIntent, 1);
     }
 
     public void onSendClick(View view)
     {
         Log.i(TAG, "onSendClick");
 
-        try
-        {
-            File temp = File.createTempFile("prefix", ".jpg", getExternalCacheDir());
+        FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath());
+        fileTransfer.execute();
+    }
 
-            FileTransfer fileTransfer = new FileTransfer(temp.getAbsolutePath());
-            fileTransfer.execute();
-        }
-        catch (Exception e)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        String face = "nope";
+        if(resultCode == RESULT_OK)
         {
+            face = data.getStringExtra("face");
 
+            //Bitmap bitmap = BitmapFactory.decodeFile(face.getAbsolutePath());
+            //imageView.setImageBitmap(bitmap);
         }
+        Toast.makeText(this, face, Toast.LENGTH_LONG).show();
     }
 }
