@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -58,5 +61,16 @@ public class MainActivity extends AppCompatActivity
     {
         Log.i(TAG, "onSendClick");
 
+        try
+        {
+            File temp = File.createTempFile("prefix", ".jpg", getExternalCacheDir());
+
+            FileTransfer fileTransfer = new FileTransfer(temp.getAbsolutePath());
+            fileTransfer.execute();
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 }
