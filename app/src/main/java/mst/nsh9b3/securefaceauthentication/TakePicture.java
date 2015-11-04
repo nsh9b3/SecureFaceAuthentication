@@ -66,7 +66,7 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
     Bitmap mBitmap;
 
     //Size of face compared to rest of image
-    private float mRelativeFaceSize = 0.3f;
+    private float mRelativeFaceSize = 0.2f;
     private int mAbsoluteFaceSize = 0;
 
     // This loads the libraries I need to run face detection
@@ -79,6 +79,9 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
             {
                 case LoaderCallbackInterface.SUCCESS:
                 {
+                    Log.d(TAG, "OpenCV loaded successfully");
+                    System.loadLibrary("face_detection");
+
                     try {
                         // load cascade file from application resources
                         InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
@@ -109,7 +112,9 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
                         e.printStackTrace();
                         Log.e(TAG, "Failed to load cascade. Exception thrown: " + e);
                     }
-                    break;
+
+                    mCameraView.enableView();
+
                 }
                 default:
                 {
@@ -134,10 +139,10 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
 
-        mCameraView = (OpenCvCameraView)findViewById(R.id.Camera_View);
-        mCameraView.setCameraIndex(FRONT_CAMERA);
+        mCameraView = (OpenCvCameraView) findViewById(R.id.Camera_View);
+        mCameraView.setCameraIndex(BACK_CAMERA);
         mCameraView.setVisibility(SurfaceView.VISIBLE);
-        mCameraView.enableView();
+        //mCameraView.enableView();
     }
 
     @Override
@@ -165,7 +170,8 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
             mCameraView.disableView();
     }
 
-    public void onDestroy() {
+    public void onDestroy()
+    {
         Log.i(TAG, "onDestroy");
 
         super.onDestroy();
@@ -222,7 +228,7 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
 
         if (mDetectorType == JAVA_DETECTOR) {
             if (mJavaDetector != null)
-                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2,
+                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
                         new Size(mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
         }
         else if (mDetectorType == NATIVE_DETECTOR) {
@@ -234,41 +240,8 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
         }
 
         Rect[] facesArray = faces.toArray();
-
         for (int i = 0; i < facesArray.length; i++)
-        {
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
-//            Mat m = new Mat();
-//            Rect r = facesArray[i];
-//
-//            m = mRgba.submat(r);
-//            mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
-//
-//            Utils.matToBitmap(m, mBitmap);
-//
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-//            String currentDateandTime = sdf.format(new Date());
-//
-//            String fileName = Environment.getExternalStorageDirectory().getPath() +
-//                    "/sample_picture_" + currentDateandTime + ".jpg";
-//
-//            FileOutputStream out = null;
-//            try {
-//                out = new FileOutputStream(fileName);
-//                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
-//                // PNG is a lossless format, the compression factor (100) is ignored
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (out != null) {
-//                        out.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-        }
 
         return mRgba;
     }
