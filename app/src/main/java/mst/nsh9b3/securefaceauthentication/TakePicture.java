@@ -255,8 +255,8 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
             SimpleDateFormat sdf = new SimpleDateFormat("_MM-dd-yyyy_HH-mm-ss");
             String currentDateandTime = sdf.format(new Date());
 
-//            filename = Environment.getExternalStorageDirectory().getPath() + "/" + MainActivity.savedImageName + currentDateandTime + ".jpg";
-            filename = this.getExternalCacheDir() + MainActivity.savedImageName + currentDateandTime + ".jpg";
+            filename = Environment.getExternalStorageDirectory().getPath() + "/" + MainActivity.savedImageName + currentDateandTime + ".jpg";
+            //filename = this.getExternalCacheDir() + MainActivity.savedImageName + currentDateandTime + ".jpg";
 
             FileOutputStream out = null;
             try

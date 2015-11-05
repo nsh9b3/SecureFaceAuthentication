@@ -92,7 +92,9 @@ public class FileTransfer extends AsyncTask
         try
         {
             InputStream input = new FileInputStream(filename);
-            ftpClient.storeFile(MainActivity.savedImageName, input);
+            String name = filename.split("/")[filename.split("/").length - 1];
+            Log.i(TAG, name);
+            ftpClient.storeFile(name, input);
 
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply))

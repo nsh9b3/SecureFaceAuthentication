@@ -2,6 +2,7 @@ package mst.nsh9b3.securefaceauthentication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -60,6 +61,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        Log.i(TAG, "onConfigurationChanged");
+
+        super.onConfigurationChanged(newConfig);
+
+        if(temporaryFile != null)
+        {
+            if (temporaryFile.exists())
+            {
+                Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+    }
+
     public void onOptionsClick(View view)
     {
         Log.i(TAG, "onOptionsClick");
@@ -97,9 +115,6 @@ public class MainActivity extends AppCompatActivity
                 Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
                 imageView.setImageBitmap(bitmap);
             }
-            //Bitmap bitmap = BitmapFactory.decodeFile(face.getAbsolutePath());
-            //imageView.setImageBitmap(bitmap);
         }
-        //Toast.makeText(this, face, Toast.LENGTH_LONG).show();
     }
 }
