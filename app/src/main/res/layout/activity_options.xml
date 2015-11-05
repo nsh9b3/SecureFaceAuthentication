@@ -1,275 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="mst.nsh9b3.securefaceauthentication.OptionsActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="5">
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-            <EditText
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:hint="Saved Image Name"
-                android:layout_weight="2"
-                android:id="@+id/Saved_Name" />
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Set"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Set_Name"
-                android:onClick="onSetName" />
+                <EditText
+                    android:id="@+id/Saved_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="Saved Image Name"
+                    android:text=""/>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Clear"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Clear_Name"
-                android:onClick="onClearName" />
+                <Button
+                    android:id="@+id/Set_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onSetName"
+                    android:text="Set"
+                    android:textSize="11dp"/>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Default_Saved_Name"
-                android:onClick="onDefaultName"/>
-        </LinearLayout>
+                <Button
+                    android:id="@+id/Clear_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClearName"
+                    android:text="Clear"
+                    android:textSize="11dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/Text_Saved_Name" />
+                <Button
+                    android:id="@+id/Default_Saved_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onDefaultName"
+                    android:text="Default"
+                    android:textSize="11dp"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="5">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:hint="FTP Server Address"
-                android:layout_weight="2"
-                android:id="@+id/FTP_Address" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Set"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Set_Address"
-                android:onClick="onSetAddress" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Clear"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Clear_Address"
-                android:onClick="onClearAddress" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Default_FTP_Address"
-                android:onClick="onDefaultAddress"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/Text_FTP_Address" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="5">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:hint="FTP Server port"
-                android:layout_weight="2"
-                android:id="@+id/FTP_Port" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Set"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Set_Port"
-                android:onClick="onSetPort" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Clear"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Clear_Port"
-                android:onClick="onClearPort" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Default_FTP_Port"
-                android:onClick="onDefaultPort"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/Text_FTP_Port" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="5">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:hint="FTP Username"
-                android:layout_weight="2"
-                android:id="@+id/FTP_Username" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Set"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Set_Username"
-                android:onClick="onSetUsername" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Clear"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Clear_Username"
-                android:onClick="onClearUsername" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Default_Username"
-                android:onClick="onDefaultUsername"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/Text_Username" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="4">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:hint="FTP Password"
-                android:password="true"
-                android:layout_weight="2"
-                android:id="@+id/FTP_Password" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Set"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Set_Password"
-                android:onClick="onSetPassword" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Clear"
-                android:textSize="11dp"
-                android:layout_weight="1"
-                android:id="@+id/Clear_Password"
-                android:onClick="onClearPassword" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="2">
-
-            <Button
+            <TextView
+                android:id="@+id/Text_Saved_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Load Defaults"
-                android:id="@+id/Load_Defaults"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:onClick="onLoadDefaults" />
+                android:layout_gravity="center"/>
 
-            <Button
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <EditText
+                    android:id="@+id/FTP_Address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="FTP Server Address"
+                    android:text=""/>
+
+                <Button
+                    android:id="@+id/Set_Address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onSetAddress"
+                    android:text="Set"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Clear_Address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClearAddress"
+                    android:text="Clear"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Default_FTP_Address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onDefaultAddress"
+                    android:text="Default"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Text_FTP_Address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save Values As Default"
-                android:id="@+id/Save_Default_Values"
-                android:layout_weight="1"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:onClick="onSaveAsDefaults"/>
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <EditText
+                    android:id="@+id/FTP_Port"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="FTP Server port"
+                    android:text=""/>
+
+                <Button
+                    android:id="@+id/Set_Port"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onSetPort"
+                    android:text="Set"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Clear_Port"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClearPort"
+                    android:text="Clear"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Default_FTP_Port"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onDefaultPort"
+                    android:text="Default"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Text_FTP_Port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <EditText
+                    android:id="@+id/FTP_Username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="FTP Username"
+                    android:text=""/>
+
+                <Button
+                    android:id="@+id/Set_Username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onSetUsername"
+                    android:text="Set"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Clear_Username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClearUsername"
+                    android:text="Clear"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Default_Username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onDefaultUsername"
+                    android:text="Default"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Text_Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <EditText
+                    android:id="@+id/FTP_Password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:hint="FTP Password"
+                    android:password="true"
+                    android:text=""/>
+
+                <Button
+                    android:id="@+id/Set_Password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onSetPassword"
+                    android:text="Set"
+                    android:textSize="11dp"/>
+
+                <Button
+                    android:id="@+id/Clear_Password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClearPassword"
+                    android:text="Clear"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/Load_Defaults"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:onClick="onLoadDefaults"
+                    android:text="Load Defaults"/>
+
+                <Button
+                    android:id="@+id/Save_Default_Values"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:onClick="onSaveAsDefaults"
+                    android:text="Save Values As Default"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>
