@@ -48,18 +48,16 @@ public class MainActivity extends AppCompatActivity
         savedUsername = sharedPreferences.getString(getString(R.string.username), savedUsername);
         savedPassword = sharedPreferences.getString(getString(R.string.password), savedPassword);
 
-        // Create Temporary file used for Picture
-        try
+        if(temporaryFile != null)
         {
-            temporaryFile = File.createTempFile(savedImageName, ".jpg", getExternalCacheDir());
-        } catch(Exception e)
+            Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        } else
         {
-            Log.e(TAG, "Error: " + e);
+            // Set a Default picture for screen
+            imageView = (ImageView) findViewById(R.id.Image_View);
+            imageView.setImageResource(R.mipmap.ic_launcher);
         }
-
-        // Set a Default picture for screen
-        imageView = (ImageView)findViewById(R.id.Image_View);
-        imageView.setImageResource(R.mipmap.ic_launcher);
     }
 
     public void onOptionsClick(View view)
@@ -93,10 +91,15 @@ public class MainActivity extends AppCompatActivity
         if(resultCode == RESULT_OK)
         {
             face = data.getStringExtra("face");
-
+            temporaryFile = new File(face);
+            if(temporaryFile.exists())
+            {
+                Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
+                imageView.setImageBitmap(bitmap);
+            }
             //Bitmap bitmap = BitmapFactory.decodeFile(face.getAbsolutePath());
             //imageView.setImageBitmap(bitmap);
         }
-        Toast.makeText(this, face, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, face, Toast.LENGTH_LONG).show();
     }
 }
