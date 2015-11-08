@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements FileTransfer.AsyncResponse
 {
     private static final String TAG = "SFA::MainActivity";
 
@@ -98,14 +98,21 @@ public class MainActivity extends AppCompatActivity
     {
         Log.i(TAG, "onSendClick");
 
-        FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath());
-        fileTransfer.execute();
+        if(temporaryFile != null)
+        {
+            if (temporaryFile.exists())
+            {
+                SplitImage splitImage = new SplitImage(2, temporaryFile);
+//                FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath(), this);
+//                fileTransfer.execute();
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        String face = "nope";
+        String face;
         if(resultCode == RESULT_OK)
         {
             face = data.getStringExtra("face");
@@ -116,5 +123,11 @@ public class MainActivity extends AppCompatActivity
                 imageView.setImageBitmap(bitmap);
             }
         }
+    }
+
+    @Override
+    public void processFinish(String output)
+    {
+        Toast.makeText(this, output, Toast.LENGTH_LONG).show();
     }
 }

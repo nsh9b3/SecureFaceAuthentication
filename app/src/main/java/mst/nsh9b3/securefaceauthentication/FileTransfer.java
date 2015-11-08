@@ -2,7 +2,9 @@ package mst.nsh9b3.securefaceauthentication;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
@@ -14,14 +16,24 @@ import java.io.InputStream;
  */
 public class FileTransfer extends AsyncTask
 {
+    public interface AsyncResponse
+    {
+        void processFinish(String output);
+    }
+
     private static final String TAG = "SFA::FileTransfer";
 
     private String filename;
     private FTPClient ftpClient;
 
-    public FileTransfer(String filename)
+    private AsyncResponse delegate = null;
+
+    private String output;
+
+    public FileTransfer(String filename, AsyncResponse delegate)
     {
         this.filename = filename;
+        this.delegate = delegate;
     }
 
     @Override
@@ -39,6 +51,12 @@ public class FileTransfer extends AsyncTask
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Object o)
+    {
+        delegate.processFinish(output);
+    }
+
     public boolean connectToServer()
     {
         Log.i(TAG, "connectToServer");
@@ -51,7 +69,8 @@ public class FileTransfer extends AsyncTask
 
             if (!ftpClient.login(MainActivity.savedUsername, MainActivity.savedPassword))
             {
-                Log.e(TAG, "Unable to log in");
+                output = "Unable to log in";
+                Log.e(TAG, output);
 
                 ftpClient.logout();
                 ftpClient.disconnect();
@@ -64,7 +83,8 @@ public class FileTransfer extends AsyncTask
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply))
             {
-                Log.e(TAG, "Error - Reply Code: " + reply);
+                output = "Error - Reply Code: " + reply;
+                Log.e(TAG, output);
 
                 ftpClient.logout();
                 ftpClient.disconnect();
@@ -79,7 +99,8 @@ public class FileTransfer extends AsyncTask
 
         } catch (Exception e)
         {
-            Log.e(TAG, "Error: " + e.getMessage());
+            output = "Error: " + e.getMessage();
+            Log.e(TAG, output);
 
             return false;
         }
@@ -93,13 +114,15 @@ public class FileTransfer extends AsyncTask
         {
             InputStream input = new FileInputStream(filename);
             String name = filename.split("/")[filename.split("/").length - 1];
-            Log.i(TAG, name);
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            ftpClient.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
             ftpClient.storeFile(name, input);
 
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply))
             {
-                Log.e(TAG, "Error - Reply Code: " + reply);
+                output = "Error - Reply Code: " + reply;
+                Log.e(TAG, output);
 
                 ftpClient.logout();
                 ftpClient.disconnect();
@@ -107,7 +130,8 @@ public class FileTransfer extends AsyncTask
                 return false;
             } else
             {
-                Log.i(TAG, "Successfully transferred: " + filename);
+                output = "Successfully transferred: " + filename;
+                Log.i(TAG, output);
 
                 input.close();
 
@@ -118,7 +142,8 @@ public class FileTransfer extends AsyncTask
             }
         } catch (Exception e)
         {
-            Log.e(TAG, "Error: " + e.getMessage());
+            output = "Error: " + e.getMessage();
+            Log.e(TAG, output);
 
             return false;
         }

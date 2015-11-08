@@ -285,15 +285,12 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
 //
 //        mCameraView.takePicture(fileName);
 //
-
-
         return false;
     }
 
     @Override
     public void onBackPressed()
     {
-        //TODO: Needs to be full path to created face image
         Intent exitIntent = new Intent();
         exitIntent.putExtra("face", filename);
 
