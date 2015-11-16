@@ -103,8 +103,17 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
             if (temporaryFile.exists())
             {
                 SplitImage splitImage = new SplitImage(2, temporaryFile);
-//                FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath(), this);
-//                fileTransfer.execute();
+                String[] splitFiles = splitImage.getNewFiles();
+
+                FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath(), this);
+                fileTransfer.execute();
+
+                for (int i = 0; i < splitFiles.length; i++)
+                {
+                    File splitFile = new File(splitFiles[i]);
+                    fileTransfer = new FileTransfer(splitFile.getAbsolutePath(), this);
+                    fileTransfer.execute();
+                }
             }
         }
     }

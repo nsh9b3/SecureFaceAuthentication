@@ -114,8 +114,8 @@ public class FileTransfer extends AsyncTask
         {
             InputStream input = new FileInputStream(filename);
             String name = filename.split("/")[filename.split("/").length - 1];
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpClient.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
+//            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+//            ftpClient.setFileTransferMode(FTP.STREAM_TRANSFER_MODE);
             ftpClient.storeFile(name, input);
 
             int reply = ftpClient.getReplyCode();

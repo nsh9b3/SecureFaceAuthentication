@@ -4,12 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +26,8 @@ public class SplitImage
     private File image = null;
 
     private ArrayList<Bitmap> chunkedImages;
+
+    private String[] newFiles;
 
     public SplitImage(File image)
     {
@@ -38,6 +43,7 @@ public class SplitImage
         this.chunkedImages = new ArrayList<Bitmap>(splits);
 
         split();
+//        randomize();
         createFiles();
     }
 
@@ -48,21 +54,17 @@ public class SplitImage
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
 
-        int rows = splits;
-        int col = 1;
+        int rows = 1;
+        int col = splits;
         int chunkHeight = bitmap.getHeight() / rows;
         int chunkWidth = bitmap.getWidth() / col;
 
-        int yCoord = 0;
-        for (int x = 0; x < rows; x++)
+        int yCor = 0;
+        int xCor = 0;
+        for(int x = 0; x < col; x++)
         {
-            int xCoord = 0;
-            for (int y = 0; y < col; y++)
-            {
-                chunkedImages.add(Bitmap.createBitmap(scaledBitmap, xCoord, yCoord, chunkWidth, chunkHeight));
-                xCoord += chunkWidth;
-            }
-            yCoord += chunkHeight;
+            chunkedImages.add(Bitmap.createBitmap(scaledBitmap, xCor, yCor, chunkWidth, chunkHeight));
+            xCor += chunkWidth;
         }
     }
 
@@ -70,7 +72,7 @@ public class SplitImage
     {
         Log.i(TAG, "createFiles");
 
-        String[] newFiles = new String[splits];
+        newFiles = new String[splits];
 
         int fileLength = image.getAbsolutePath().split("/").length;
 
@@ -103,5 +105,19 @@ public class SplitImage
                 }
             }
         }
+    }
+
+    private void randomize()
+    {
+        Log.i(TAG, "randomize");
+
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+        ByteBuffer bitmapBuffer = ByteBuffer.allocate(bitmap.getHeight() * bitmap.getWidth());
+//        bitmapBuffer
+    }
+
+    public String[] getNewFiles()
+    {
+        return newFiles;
     }
 }
