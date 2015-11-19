@@ -1,10 +1,17 @@
 package mst.nsh9b3.securefaceauthentication;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,5 +75,49 @@ public class Utilities
             Log.i(TAG, "Bitmaps have different sizes");
             return false;
         }
+    }
+
+    public static void createHistogram(Bitmap bitmap, int histSizeNum)
+    {
+        Log.i(TAG, "createHistogram");
+
+        Mat tmp = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bitmap, tmp);
+
+        MatOfInt channels = new MatOfInt(0);
+        Mat hist = new Mat();
+        MatOfInt mHistSize = new MatOfInt(histSizeNum);
+        MatOfFloat mRanges = new MatOfFloat(0f, 256f);
+
+        Imgproc.calcHist(Arrays.asList(tmp), channels, new Mat(), hist, mHistSize, mRanges);
+
+//        for (int i = 0; i < 25; i++)
+//        {
+//            double[] histValues = hist.get(i, 0);
+//            for (int j = 0; j < histValues.length; j++)
+//            {
+//                Log.d(TAG, "yourData=" + histValues[j]);
+//            }
+//        }
+//
+//        Bitmap histBitmap = Bitmap.createBitmap(hist.width(), hist.height(), Bitmap.Config.ARGB_8888);
+//
+//        Utilities.savePicture(Environment.getExternalStorageDirectory().getPath() + "/hist.png", histBitmap);
+//
+//        Bitmap test = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getPath() + "/hist.png");
+//
+//        if(Utilities.compare(test, histBitmap))
+//        {
+//            Log.i(TAG, "SAME");
+//        }
+//        else
+//        {
+//            Log.i(TAG, "DIFFERENT");
+//        }
+    }
+
+    public static void createHistogram(Bitmap bitmap)
+    {
+        createHistogram(bitmap, 25);
     }
 }

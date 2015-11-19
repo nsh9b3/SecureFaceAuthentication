@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
         Log.i(TAG, "onSendClick");
 
 //        DetectFeatures detectFeatures = new DetectFeatures(temporaryFile.getAbsolutePath());
-        DetectFeatures detectFeatures = new DetectFeatures(null);
+//        DetectFeatures detectFeatures = new DetectFeatures(null);
 
 
 //        if(temporaryFile != null)
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
             {
                 imageView.setImageBitmap(savedBitmap);
             }
-            CreateHistogram create = new CreateHistogram(savedBitmap);
+            Utilities.createHistogram(savedBitmap);
         }
     }
 
