@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
     private ImageView imageView;
 
     private File temporaryFile;
+    private Bitmap savedBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,16 +50,9 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
         savedUsername = sharedPreferences.getString(getString(R.string.username), savedUsername);
         savedPassword = sharedPreferences.getString(getString(R.string.password), savedPassword);
 
-        if(temporaryFile != null)
-        {
-            Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
-            imageView.setImageBitmap(bitmap);
-        } else
-        {
-            // Set a Default picture for screen
-            imageView = (ImageView) findViewById(R.id.Image_View);
-            imageView.setImageResource(R.mipmap.ic_launcher);
-        }
+        // Set a Default picture for screen
+        imageView = (ImageView) findViewById(R.id.Image_View);
+        imageView.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
@@ -68,13 +62,15 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
 
         super.onConfigurationChanged(newConfig);
 
-        if(temporaryFile != null)
+        if(savedBitmap != null)
         {
-            if (temporaryFile.exists())
-            {
-                Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
-                imageView.setImageBitmap(bitmap);
-            }
+            imageView.setImageBitmap(savedBitmap);
+        }
+        else
+        {
+            // Set a Default picture for screen
+            imageView = (ImageView) findViewById(R.id.Image_View);
+            imageView.setImageResource(R.mipmap.ic_launcher);
         }
     }
 
@@ -98,38 +94,41 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
     {
         Log.i(TAG, "onSendClick");
 
-        if(temporaryFile != null)
-        {
-            if (temporaryFile.exists())
-            {
-                SplitImage splitImage = new SplitImage(2, temporaryFile);
-                String[] splitFiles = splitImage.getNewFiles();
+//        DetectFeatures detectFeatures = new DetectFeatures(temporaryFile.getAbsolutePath());
+        DetectFeatures detectFeatures = new DetectFeatures(null);
 
-                FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath(), this);
-                fileTransfer.execute();
 
-                for (int i = 0; i < splitFiles.length; i++)
-                {
-                    File splitFile = new File(splitFiles[i]);
-                    fileTransfer = new FileTransfer(splitFile.getAbsolutePath(), this);
-                    fileTransfer.execute();
-                }
-            }
-        }
+//        if(temporaryFile != null)
+//        {
+//            if (temporaryFile.exists())
+//            {
+////                SplitImage splitImage = new SplitImage(2, temporaryFile);
+////                String[] splitFiles = splitImage.getNewFiles();
+//
+//                FileTransfer fileTransfer = new FileTransfer(temporaryFile.getAbsolutePath(), this);
+//                fileTransfer.execute();
+//
+////                for (int i = 0; i < splitFiles.length; i++)
+////                {
+////                    File splitFile = new File(splitFiles[i]);
+////                    fileTransfer = new FileTransfer(splitFile.getAbsolutePath(), this);
+////                    fileTransfer.execute();
+////                }
+//            }
+//        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        String face;
+        byte[] bytes;
         if(resultCode == RESULT_OK)
         {
-            face = data.getStringExtra("face");
-            temporaryFile = new File(face);
-            if(temporaryFile.exists())
+            bytes = data.getByteArrayExtra("bytes");
+            savedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if(savedBitmap != null)
             {
-                Bitmap bitmap = BitmapFactory.decodeFile(temporaryFile.getAbsolutePath());
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(savedBitmap);
             }
         }
     }

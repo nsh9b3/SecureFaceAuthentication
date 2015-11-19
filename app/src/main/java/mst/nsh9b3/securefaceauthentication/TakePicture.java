@@ -26,6 +26,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,6 +67,7 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
 
     //Bitmap of face - Gray Scale
     Bitmap mBitmap;
+    Bitmap savedBitmap;
     String filename;
 
     //Size of face compared to rest of image
@@ -258,44 +260,32 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
             filename = Environment.getExternalStorageDirectory().getPath() + "/" + MainActivity.savedImageName + currentDateandTime + ".jpg";
             //filename = this.getExternalCacheDir() + MainActivity.savedImageName + currentDateandTime + ".jpg";
 
-            FileOutputStream out = null;
-            try
-            {
-                out = new FileOutputStream(filename);
-                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
-                // PNG is a lossless format, the compression factor (100) is ignored
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            } finally
-            {
-                try
-                {
-                    if (out != null)
-                    {
-                        out.close();
-                    }
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            Toast.makeText(this, filename + " saved", Toast.LENGTH_SHORT).show();
+            savedBitmap = mBitmap;
+            //Utilities.savePicture(filename, mBitmap);
+            Toast.makeText(this, "bitmap saved", Toast.LENGTH_SHORT).show();
         }
-//
-//        mCameraView.takePicture(fileName);
-//
+
         return false;
     }
 
     @Override
     public void onBackPressed()
     {
+        Log.i(TAG, "onBackPressed");
+
         Intent exitIntent = new Intent();
-        exitIntent.putExtra("face", filename);
+        exitIntent.putExtra("bytes", compressBitmap(savedBitmap));
 
         setResult(RESULT_OK, exitIntent);
         finish();
     }
 
+    private byte[] compressBitmap(Bitmap compressBitmap)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+
+        return bytes;
+    }
 }
