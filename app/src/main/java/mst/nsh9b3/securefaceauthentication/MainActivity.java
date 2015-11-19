@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements FileTransfer.Asyn
             {
                 imageView.setImageBitmap(savedBitmap);
             }
+            CreateHistogram create = new CreateHistogram(savedBitmap);
         }
     }
 
