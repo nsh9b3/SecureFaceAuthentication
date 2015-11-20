@@ -13,7 +13,9 @@ import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -27,6 +29,7 @@ public class Utilities
     public static boolean savePicture(String filename, Bitmap bitmap)
     {
         Log.i(TAG, "savePicture");
+
         FileOutputStream out = null;
         try
         {
@@ -43,6 +46,44 @@ public class Utilities
                 if (out != null)
                 {
                     out.close();
+                }
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    public static boolean writeMatToFile(String filename, Mat mat)
+    {
+        Log.i(TAG, "writeByteToFile");
+
+        BufferedWriter writer = null;
+        try
+        {
+            writer = new BufferedWriter(new FileWriter(filename));
+            //writer.write(bitmap.getHeight() + " " + bitmap.getWidth() + " ");
+            for (int i = 0; i < 25; i++)
+            {
+                double[] histValues = mat.get(i, 0);
+                for (int j = 0; j < histValues.length; j++)
+                {
+                    writer.write(histValues[j] + " ");
+                    Log.d(TAG, "yourData=" + histValues[j]);
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        } finally
+        {
+            try
+            {
+                if (writer != null)
+                {
+                    writer.close();
                 }
             } catch (IOException e)
             {
@@ -90,6 +131,10 @@ public class Utilities
         MatOfFloat mRanges = new MatOfFloat(0f, 256f);
 
         Imgproc.calcHist(Arrays.asList(tmp), channels, new Mat(), hist, mHistSize, mRanges);
+
+//        Bitmap histBitmap = Bitmap.createBitmap(hist.width(), hist.height(), Bitmap.Config.ARGB_8888);
+
+        Utilities.writeMatToFile(Environment.getExternalStorageDirectory().getPath() + "/test.txt", hist);
 
 //        for (int i = 0; i < 25; i++)
 //        {
