@@ -18,6 +18,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.Utils;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -45,7 +46,7 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
     //Which type of detector to use... Native is better
     private static final int JAVA_DETECTOR = 0;
     private static final int NATIVE_DETECTOR = 1;
-    private int mDetectorType = NATIVE_DETECTOR;
+    private int mDetectorType = JAVA_DETECTOR;
 
     //Front-facing camera or back-facing camera
     private static final int BACK_CAMERA = 0;
@@ -69,6 +70,8 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
     Bitmap mBitmap;
     Bitmap savedBitmap;
     String filename;
+    Rect faceRect;
+    Mat savedMat;
 
     //Size of face compared to rest of image
     private float mRelativeFaceSize = 0.3f;
@@ -234,13 +237,12 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
         for (int i = 0; i < facesArray.length; i++)
         {
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 1);
-            Mat m = new Mat();
-            Rect r = facesArray[i];
+            faceRect = facesArray[i];
 
-            m = mGray.submat(r);
-            mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
+            savedMat = mGray.submat(faceRect);
+//            mBitmap = Bitmap.createBitmap(savedMat.width(), savedMat.height(), Bitmap.Config.ARGB_8888);
 
-            Utils.matToBitmap(m, mBitmap);
+//            Utils.matToBitmap(savedMat, mBitmap);
         }
 
         return mRgba;
@@ -252,7 +254,7 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
     {
         Log.i(TAG, "onTouch");
 
-        if (mBitmap != null)
+        if (savedMat != null)
         {
             SimpleDateFormat sdf = new SimpleDateFormat("_MM-dd-yyyy_HH-mm-ss");
             String currentDateandTime = sdf.format(new Date());
@@ -260,7 +262,32 @@ public class TakePicture extends Activity implements CameraBridgeViewBase.CvCame
             filename = Environment.getExternalStorageDirectory().getPath() + "/" + MainActivity.savedImageName + currentDateandTime + ".jpg";
             //filename = this.getExternalCacheDir() + MainActivity.savedImageName + currentDateandTime + ".jpg";
 
-            savedBitmap = mBitmap;
+            int newRowAmount = (int)(savedMat.rows() * .75);
+            int newColAmount = (int)(savedMat.cols() * .75);
+            int rowStart = (savedMat.rows() / 2) - (newRowAmount / 2);
+            int rowEnd = (savedMat.rows() / 2) + (newRowAmount / 2);
+            int colStart = (savedMat.cols() / 2) - (newColAmount / 2);
+            int colEnd = (savedMat.cols() / 2) + (newColAmount / 2);
+            Mat m = savedMat.submat(rowStart, rowEnd, colStart, colEnd);
+
+            savedBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(m, savedBitmap);
+
+//            savedBitmap = Bitmap.createBitmap(savedMat.width(), savedMat.height(), Bitmap.Config.ARGB_8888);
+//            Utils.matToBitmap(savedMat, savedBitmap);
+//            savedBitmap = mBitmap;
+
+//            Mat tmp = new Mat(mBitmap.getHeight(), mBitmap.getWidth(), CvType.CV_8UC1);
+//            Utils.bitmapToMat(mBitmap, tmp);
+//
+////            faceRect.height = faceRect.height / 2;
+////            faceRect.width = faceRect.width / 2;
+//
+//            tmp = tmp.submat(faceRect);
+//
+//            savedBitmap = Bitmap.createBitmap(tmp.width(), tmp.height(), Bitmap.Config.ARGB_8888);
+//            Utils.matToBitmap(tmp, savedBitmap);
+
             //Utilities.savePicture(filename, mBitmap);
             Toast.makeText(this, "bitmap saved", Toast.LENGTH_SHORT).show();
         }
